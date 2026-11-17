@@ -536,7 +536,9 @@ footer .wrap{display:flex; justify-content:space-between; gap:1rem; flex-wrap:wr
 <script>
 // --- Settings: paste the pitch video and the signup endpoint here ---
 const YOUTUBE_URL = '';   // e.g. https://youtu.be/XXXXXXXXXXX
-const SIGNUP_ENDPOINT = 'https://formsubmit.co/ajax/keithcas23@gmail.com'; // swap the address for the Formsubmit alias after activation
+// Signups go to the "Draft waitlist" Google Form; responses are in its Responses tab.
+const SIGNUP_ENDPOINT = 'https://docs.google.com/forms/d/e/1FAIpQLScsH6K3epfgixkI_vGmswwAUXEAjgptoPnMCb0y0zLFuEQChw/formResponse';
+const SIGNUP_FIELDS = { email: 'entry.1337892781', role: 'entry.1253995808' };
 
 // video
 (function(){
@@ -565,10 +567,10 @@ document.querySelectorAll('[data-signup]').forEach(form => {
     btn.disabled = true; const label = btn.textContent; btn.textContent = 'Joining...';
     try {
       const role = form.querySelector('input[name=role]:checked').value;
-      const r = await fetch(SIGNUP_ENDPOINT, { method:'POST', headers:{'Content-Type':'application/json', Accept:'application/json'},
-        body: JSON.stringify({ email, role, _subject:'New Draft waitlist signup (' + role + ')', _template:'table', _captcha:'false' }) });
-      const data = await r.json().catch(() => ({}));
-      if (!r.ok || data.success === 'false' || data.success === false) throw new Error('bad');
+      // Google Forms accepts a plain form post but sends no CORS headers, so the reply cannot be read.
+      // A network failure still throws; anything that reaches Google is recorded as a response.
+      const body = new URLSearchParams({ [SIGNUP_FIELDS.email]: email, [SIGNUP_FIELDS.role]: role });
+      await fetch(SIGNUP_ENDPOINT, { method:'POST', mode:'no-cors', body });
       note.textContent = "You're on the list. We'll email you when the UCF pilot opens."; note.classList.add('ok'); form.reset();
     } catch {
       note.textContent = "That didn't go through. Check your connection and try again."; note.classList.add('err');
