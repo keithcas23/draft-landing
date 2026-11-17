@@ -129,9 +129,10 @@ section{padding-block:5.5rem}
 .player .soon b{font:600 1.6rem var(--font-display)}
 .player .soon p{color:#C9D3EA; margin-top:.4rem}
 .chapters{list-style:none; margin:0; padding:0; display:grid; gap:.1rem}
-.chapters li{display:grid; grid-template-columns:3.4rem 1fr; gap:.6rem; padding:.55rem 0; border-top:1px solid var(--line); font-size:.93rem}
+.chapters{counter-reset:ch}
+.chapters li{counter-increment:ch; display:grid; grid-template-columns:2.2rem 1fr; gap:.6rem; padding:.55rem 0; border-top:1px solid var(--line); font-size:.93rem}
 .chapters li:first-child{border-top:none}
-.chapters time{font-family:var(--font-mono); font-size:.78rem; color:var(--accent); padding-top:.1rem}
+.chapters li::before{content:counter(ch, decimal-leading-zero); font-family:var(--font-mono); font-size:.78rem; color:var(--accent); padding-top:.1rem}
 
 /* ABOUT */
 .about-grid{display:grid; grid-template-columns:.8fr 1.2fr; gap:3rem; align-items:start}
@@ -297,16 +298,16 @@ footer .wrap{display:flex; justify-content:space-between; gap:1rem; flex-wrap:wr
       <h2>Why great engineers get lost in the pile, and how Draft fixes it</h2>
     </div>
     <div class="video-grid">
-      <div class="player" id="player" data-youtube=""><div class="soon"><div><b>Pitch video coming soon</b><p>Founder Keith Castronovo walks through the problem, the product and the plan.</p></div></div></div>
+      <div class="player" id="player"><iframe src="https://www.youtube-nocookie.com/embed/DE2MNJNrDIs?rel=0" title="Draft value proposition pitch video" allow="accelerometer; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe></div>
       <div>
         <ol class="chapters">
-          <li><time>0:00</time><span>Meet the founder</span></li>
-          <li><time>0:48</time><span>The problem: 109 applicants, 7 seconds</span></li>
-          <li><time>1:07</time><span>The solution and how it works</span></li>
-          <li><time>1:50</time><span>Market: $264M in engineering internship hiring</span></li>
-          <li><time>2:10</time><span>Competition: reach versus proof</span></li>
-          <li><time>2:31</time><span>Go-to-market and milestones</span></li>
-          <li><time>3:13</time><span>Our value proposition</span></li>
+          <li><span>Meet the founder</span></li>
+          <li><span>The problem: 109 applicants, 7 seconds</span></li>
+          <li><span>The solution and how it works</span></li>
+          <li><span>Market: $264M in engineering internship hiring</span></li>
+          <li><span>Competition: reach versus proof</span></li>
+          <li><span>Go-to-market and milestones</span></li>
+          <li><span>Our value proposition</span></li>
         </ol>
       </div>
     </div>
@@ -536,7 +537,7 @@ footer .wrap{display:flex; justify-content:space-between; gap:1rem; flex-wrap:wr
 
 <script>
 // --- Settings: paste the pitch video and the signup endpoint here ---
-const YOUTUBE_URL = 'https://youtu.be/DE2MNJNrDIs';
+const YOUTUBE_URL = '';   // the pitch video is embedded directly in the #player element above
 // Signups go to the "Draft waitlist" Google Form; responses are in its Responses tab.
 const SIGNUP_ENDPOINT = 'https://docs.google.com/forms/d/e/1FAIpQLScsH6K3epfgixkI_vGmswwAUXEAjgptoPnMCb0y0zLFuEQChw/formResponse';
 const SIGNUP_FIELDS = { email: 'entry.1337892781', role: 'entry.1253995808' };
